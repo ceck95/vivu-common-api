@@ -2,8 +2,8 @@
  * @Author: Tran Van Nhut <nhutdev>
  * @Date:   2017-02-22T22:21:13+07:00
  * @Email:  tranvannhut4495@gmail.com
-* @Last modified by:   nhutdev
-* @Last modified time: 2017-02-23T10:38:41+07:00
+ * @Last modified by:   nhutdev
+ * @Last modified time: 2017-03-23T12:53:31+07:00
  */
 
 'use strict';
@@ -23,16 +23,12 @@ class ProductColor extends helpers.models.Base {
     super(data, opts);
 
     this.id = null;
-    this.categoryId = null;
-    this.name = '';
-    this.sku = '';
-    this.metaDesc = {};
-    this.notes = '';
-    this.details = '';
-    this.urlKey = '';
-    this.imagePath = '';
-    this.basePrice = null;
-    this.isSoldOld = null;
+    this.productId = null;
+    this.colorName = '';
+    this.referProductImagePath = '';
+    this.price = null
+    this.priority = null;
+    this.isSoldOut = null;
 
     if (data) {
       helpers.Model.assignData(this, data, opts);
@@ -47,7 +43,7 @@ class ProductColor extends helpers.models.Base {
       refer_product_image_path: this.referProductImagePath,
       price: this.price,
       priority: this.priority,
-      is_sold_old: this.isSoldOld,
+      is_sold_out: this.isSoldOut,
       status: this.status,
       created_at: this.createdAt,
       updated_at: this.updatedAt,
@@ -71,6 +67,10 @@ class ProductColor extends helpers.models.Base {
     let result = helpers.Model.toObject(this, opts);
 
     return result;
+  }
+
+  get serviceActions() {
+    return ['getManyByProduct'];
   }
 
 }

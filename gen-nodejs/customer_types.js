@@ -267,11 +267,6 @@ vv.models.CustomerInsert = module.exports.CustomerInsert = function(args) {
   this.dob = null;
   this.gender = null;
   this.passwordHash = null;
-  this.status = null;
-  this.createdAt = null;
-  this.updatedAt = null;
-  this.createdBy = null;
-  this.updatedBy = null;
   if (args) {
     if (args.email !== undefined && args.email !== null) {
       this.email = args.email;
@@ -290,21 +285,6 @@ vv.models.CustomerInsert = module.exports.CustomerInsert = function(args) {
     }
     if (args.passwordHash !== undefined && args.passwordHash !== null) {
       this.passwordHash = args.passwordHash;
-    }
-    if (args.status !== undefined && args.status !== null) {
-      this.status = args.status;
-    }
-    if (args.createdAt !== undefined && args.createdAt !== null) {
-      this.createdAt = args.createdAt;
-    }
-    if (args.updatedAt !== undefined && args.updatedAt !== null) {
-      this.updatedAt = args.updatedAt;
-    }
-    if (args.createdBy !== undefined && args.createdBy !== null) {
-      this.createdBy = args.createdBy;
-    }
-    if (args.updatedBy !== undefined && args.updatedBy !== null) {
-      this.updatedBy = args.updatedBy;
     }
   }
 };
@@ -364,41 +344,6 @@ vv.models.CustomerInsert.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
-      case 7:
-      if (ftype == Thrift.Type.I32) {
-        this.status = input.readI32();
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 8:
-      if (ftype == Thrift.Type.STRING) {
-        this.createdAt = input.readString();
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 9:
-      if (ftype == Thrift.Type.STRING) {
-        this.updatedAt = input.readString();
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 10:
-      if (ftype == Thrift.Type.STRING) {
-        this.createdBy = input.readString();
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 11:
-      if (ftype == Thrift.Type.STRING) {
-        this.updatedBy = input.readString();
-      } else {
-        input.skip(ftype);
-      }
-      break;
       default:
         input.skip(ftype);
     }
@@ -440,29 +385,136 @@ vv.models.CustomerInsert.prototype.write = function(output) {
     output.writeString(this.passwordHash);
     output.writeFieldEnd();
   }
-  if (this.status !== null && this.status !== undefined) {
-    output.writeFieldBegin('status', Thrift.Type.I32, 7);
-    output.writeI32(this.status);
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+vv.models.CustomerForm = module.exports.CustomerForm = function(args) {
+  this.id = null;
+  this.phone = null;
+  this.fullName = null;
+  this.dob = null;
+  this.gender = null;
+  this.passwordHash = null;
+  if (args) {
+    if (args.id !== undefined && args.id !== null) {
+      this.id = args.id;
+    } else {
+      throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field id is unset!');
+    }
+    if (args.phone !== undefined && args.phone !== null) {
+      this.phone = args.phone;
+    }
+    if (args.fullName !== undefined && args.fullName !== null) {
+      this.fullName = args.fullName;
+    }
+    if (args.dob !== undefined && args.dob !== null) {
+      this.dob = args.dob;
+    }
+    if (args.gender !== undefined && args.gender !== null) {
+      this.gender = args.gender;
+    }
+    if (args.passwordHash !== undefined && args.passwordHash !== null) {
+      this.passwordHash = args.passwordHash;
+    }
+  }
+};
+vv.models.CustomerForm.prototype = {};
+vv.models.CustomerForm.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.I32) {
+        this.id = input.readI32();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.STRING) {
+        this.phone = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 3:
+      if (ftype == Thrift.Type.STRING) {
+        this.fullName = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 4:
+      if (ftype == Thrift.Type.STRING) {
+        this.dob = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 5:
+      if (ftype == Thrift.Type.STRING) {
+        this.gender = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 6:
+      if (ftype == Thrift.Type.STRING) {
+        this.passwordHash = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+vv.models.CustomerForm.prototype.write = function(output) {
+  output.writeStructBegin('CustomerForm');
+  if (this.id !== null && this.id !== undefined) {
+    output.writeFieldBegin('id', Thrift.Type.I32, 1);
+    output.writeI32(this.id);
     output.writeFieldEnd();
   }
-  if (this.createdAt !== null && this.createdAt !== undefined) {
-    output.writeFieldBegin('createdAt', Thrift.Type.STRING, 8);
-    output.writeString(this.createdAt);
+  if (this.phone !== null && this.phone !== undefined) {
+    output.writeFieldBegin('phone', Thrift.Type.STRING, 2);
+    output.writeString(this.phone);
     output.writeFieldEnd();
   }
-  if (this.updatedAt !== null && this.updatedAt !== undefined) {
-    output.writeFieldBegin('updatedAt', Thrift.Type.STRING, 9);
-    output.writeString(this.updatedAt);
+  if (this.fullName !== null && this.fullName !== undefined) {
+    output.writeFieldBegin('fullName', Thrift.Type.STRING, 3);
+    output.writeString(this.fullName);
     output.writeFieldEnd();
   }
-  if (this.createdBy !== null && this.createdBy !== undefined) {
-    output.writeFieldBegin('createdBy', Thrift.Type.STRING, 10);
-    output.writeString(this.createdBy);
+  if (this.dob !== null && this.dob !== undefined) {
+    output.writeFieldBegin('dob', Thrift.Type.STRING, 4);
+    output.writeString(this.dob);
     output.writeFieldEnd();
   }
-  if (this.updatedBy !== null && this.updatedBy !== undefined) {
-    output.writeFieldBegin('updatedBy', Thrift.Type.STRING, 11);
-    output.writeString(this.updatedBy);
+  if (this.gender !== null && this.gender !== undefined) {
+    output.writeFieldBegin('gender', Thrift.Type.STRING, 5);
+    output.writeString(this.gender);
+    output.writeFieldEnd();
+  }
+  if (this.passwordHash !== null && this.passwordHash !== undefined) {
+    output.writeFieldBegin('passwordHash', Thrift.Type.STRING, 6);
+    output.writeString(this.passwordHash);
     output.writeFieldEnd();
   }
   output.writeFieldStop();

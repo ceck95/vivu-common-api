@@ -46,8 +46,8 @@ class CategoryGroup extends helpers.models.Base {
       created_at: this.createdAt,
       updated_at: this.updatedAt,
       created_by: this.createdBy,
-      updated_at: this.updatedAt
-    }
+      updated_by: this.updatedBy
+    };
   }
 
   applyThrift(model, opts) {

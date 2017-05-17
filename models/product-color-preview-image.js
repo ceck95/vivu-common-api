@@ -2,8 +2,8 @@
  * @Author: Tran Van Nhut <nhutdev>
  * @Date:   2017-02-22T22:21:13+07:00
  * @Email:  tranvannhut4495@gmail.com
-* @Last modified by:   nhutdev
-* @Last modified time: 2017-02-23T10:59:46+07:00
+ * @Last modified by:   nhutdev
+ * @Last modified time: 2017-03-18T13:29:16+07:00
  */
 
 'use strict';
@@ -14,7 +14,7 @@ const productColorPreviewImageTypes = require('../gen-nodejs/product_color_previ
 class ProductColorPreviewImage extends helpers.models.Base {
 
   get tableName() {
-    return 'product_color_image_preview';
+    return 'product_color_preview_image';
   }
 
   constructor(data, opts) {
@@ -40,14 +40,14 @@ class ProductColorPreviewImage extends helpers.models.Base {
       created_at: this.createdAt,
       updated_at: this.updatedAt,
       created_by: this.createdBy,
-      updated_at: this.updatedAt
-    }
+      updated_by: this.updatedBy
+    };
   }
 
 
   toThriftObject(opts) {
 
-    let model = new productColorPreviewImageTypes.ProductColor();
+    let model = new productColorPreviewImageTypes.ProductColorPreviewImage();
     this.applyThrift(model, opts);
 
     return model;
@@ -59,6 +59,10 @@ class ProductColorPreviewImage extends helpers.models.Base {
     let result = helpers.Model.toObject(this, opts);
 
     return result;
+  }
+
+  get serviceActions() {
+    return ['getManyByProductColor'];
   }
 
 }

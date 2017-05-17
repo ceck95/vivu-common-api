@@ -10,6 +10,7 @@ var Q = thrift.Q;
 var pagination_ttypes = require('./pagination_types')
 var category_ttypes = require('./category_types')
 var category_group_ttypes = require('./category_group_types')
+var product_color_ttypes = require('./product_color_types')
 
 
 var ttypes = module.exports = {};
@@ -30,15 +31,18 @@ vv.models.Product = module.exports.Product = function(args) {
   this.urlKey = null;
   this.imagePath = null;
   this.basePrice = null;
-  this.isSoldOld = null;
+  this.isSoldOut = null;
   this.status = null;
   this.createdAt = null;
   this.updatedAt = null;
   this.createdBy = null;
   this.updatedBy = null;
-  this.categoryGroupId = null;
-  this.categories = null;
-  this.categoriesGroup = null;
+  this.category = null;
+  this.categoryGroup = null;
+  this.productColor = null;
+  this.isProductColor = null;
+  this.search = null;
+  this.searchFull = null;
   if (args) {
     if (args.id !== undefined && args.id !== null) {
       this.id = args.id;
@@ -70,8 +74,8 @@ vv.models.Product = module.exports.Product = function(args) {
     if (args.basePrice !== undefined && args.basePrice !== null) {
       this.basePrice = args.basePrice;
     }
-    if (args.isSoldOld !== undefined && args.isSoldOld !== null) {
-      this.isSoldOld = args.isSoldOld;
+    if (args.isSoldOut !== undefined && args.isSoldOut !== null) {
+      this.isSoldOut = args.isSoldOut;
     }
     if (args.status !== undefined && args.status !== null) {
       this.status = args.status;
@@ -88,14 +92,23 @@ vv.models.Product = module.exports.Product = function(args) {
     if (args.updatedBy !== undefined && args.updatedBy !== null) {
       this.updatedBy = args.updatedBy;
     }
-    if (args.categoryGroupId !== undefined && args.categoryGroupId !== null) {
-      this.categoryGroupId = args.categoryGroupId;
+    if (args.category !== undefined && args.category !== null) {
+      this.category = new category_ttypes.Category(args.category);
     }
-    if (args.categories !== undefined && args.categories !== null) {
-      this.categories = new category_ttypes.Category(args.categories);
+    if (args.categoryGroup !== undefined && args.categoryGroup !== null) {
+      this.categoryGroup = new category_group_ttypes.CategoryGroup(args.categoryGroup);
     }
-    if (args.categoriesGroup !== undefined && args.categoriesGroup !== null) {
-      this.categoriesGroup = new category_group_ttypes.CategoryGroup(args.categoriesGroup);
+    if (args.productColor !== undefined && args.productColor !== null) {
+      this.productColor = new product_color_ttypes.ProductColor(args.productColor);
+    }
+    if (args.isProductColor !== undefined && args.isProductColor !== null) {
+      this.isProductColor = args.isProductColor;
+    }
+    if (args.search !== undefined && args.search !== null) {
+      this.search = args.search;
+    }
+    if (args.searchFull !== undefined && args.searchFull !== null) {
+      this.searchFull = args.searchFull;
     }
   }
 };
@@ -185,7 +198,7 @@ vv.models.Product.prototype.read = function(input) {
       break;
       case 11:
       if (ftype == Thrift.Type.BOOL) {
-        this.isSoldOld = input.readBool();
+        this.isSoldOut = input.readBool();
       } else {
         input.skip(ftype);
       }
@@ -226,24 +239,46 @@ vv.models.Product.prototype.read = function(input) {
       }
       break;
       case 17:
-      if (ftype == Thrift.Type.I32) {
-        this.categoryGroupId = input.readI32();
+      if (ftype == Thrift.Type.STRUCT) {
+        this.category = new category_ttypes.Category();
+        this.category.read(input);
       } else {
         input.skip(ftype);
       }
       break;
       case 18:
       if (ftype == Thrift.Type.STRUCT) {
-        this.categories = new category_ttypes.Category();
-        this.categories.read(input);
+        this.categoryGroup = new category_group_ttypes.CategoryGroup();
+        this.categoryGroup.read(input);
       } else {
         input.skip(ftype);
       }
       break;
       case 19:
       if (ftype == Thrift.Type.STRUCT) {
-        this.categoriesGroup = new category_group_ttypes.CategoryGroup();
-        this.categoriesGroup.read(input);
+        this.productColor = new product_color_ttypes.ProductColor();
+        this.productColor.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 20:
+      if (ftype == Thrift.Type.BOOL) {
+        this.isProductColor = input.readBool();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 21:
+      if (ftype == Thrift.Type.STRING) {
+        this.search = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 22:
+      if (ftype == Thrift.Type.STRING) {
+        this.searchFull = input.readString();
       } else {
         input.skip(ftype);
       }
@@ -309,9 +344,9 @@ vv.models.Product.prototype.write = function(output) {
     output.writeDouble(this.basePrice);
     output.writeFieldEnd();
   }
-  if (this.isSoldOld !== null && this.isSoldOld !== undefined) {
-    output.writeFieldBegin('isSoldOld', Thrift.Type.BOOL, 11);
-    output.writeBool(this.isSoldOld);
+  if (this.isSoldOut !== null && this.isSoldOut !== undefined) {
+    output.writeFieldBegin('isSoldOut', Thrift.Type.BOOL, 11);
+    output.writeBool(this.isSoldOut);
     output.writeFieldEnd();
   }
   if (this.status !== null && this.status !== undefined) {
@@ -339,19 +374,34 @@ vv.models.Product.prototype.write = function(output) {
     output.writeString(this.updatedBy);
     output.writeFieldEnd();
   }
-  if (this.categoryGroupId !== null && this.categoryGroupId !== undefined) {
-    output.writeFieldBegin('categoryGroupId', Thrift.Type.I32, 17);
-    output.writeI32(this.categoryGroupId);
+  if (this.category !== null && this.category !== undefined) {
+    output.writeFieldBegin('category', Thrift.Type.STRUCT, 17);
+    this.category.write(output);
     output.writeFieldEnd();
   }
-  if (this.categories !== null && this.categories !== undefined) {
-    output.writeFieldBegin('categories', Thrift.Type.STRUCT, 18);
-    this.categories.write(output);
+  if (this.categoryGroup !== null && this.categoryGroup !== undefined) {
+    output.writeFieldBegin('categoryGroup', Thrift.Type.STRUCT, 18);
+    this.categoryGroup.write(output);
     output.writeFieldEnd();
   }
-  if (this.categoriesGroup !== null && this.categoriesGroup !== undefined) {
-    output.writeFieldBegin('categoriesGroup', Thrift.Type.STRUCT, 19);
-    this.categoriesGroup.write(output);
+  if (this.productColor !== null && this.productColor !== undefined) {
+    output.writeFieldBegin('productColor', Thrift.Type.STRUCT, 19);
+    this.productColor.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.isProductColor !== null && this.isProductColor !== undefined) {
+    output.writeFieldBegin('isProductColor', Thrift.Type.BOOL, 20);
+    output.writeBool(this.isProductColor);
+    output.writeFieldEnd();
+  }
+  if (this.search !== null && this.search !== undefined) {
+    output.writeFieldBegin('search', Thrift.Type.STRING, 21);
+    output.writeString(this.search);
+    output.writeFieldEnd();
+  }
+  if (this.searchFull !== null && this.searchFull !== undefined) {
+    output.writeFieldBegin('searchFull', Thrift.Type.STRING, 22);
+    output.writeString(this.searchFull);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -366,6 +416,9 @@ vv.models.ProductFilter = module.exports.ProductFilter = function(args) {
   this.categoryGroupId = null;
   this.urlKeyCategory = null;
   this.urlKeyCategoryGroup = null;
+  this.search = null;
+  this.searchFull = null;
+  this.price = null;
   if (args) {
     if (args.name !== undefined && args.name !== null) {
       this.name = args.name;
@@ -384,6 +437,15 @@ vv.models.ProductFilter = module.exports.ProductFilter = function(args) {
     }
     if (args.urlKeyCategoryGroup !== undefined && args.urlKeyCategoryGroup !== null) {
       this.urlKeyCategoryGroup = args.urlKeyCategoryGroup;
+    }
+    if (args.search !== undefined && args.search !== null) {
+      this.search = args.search;
+    }
+    if (args.searchFull !== undefined && args.searchFull !== null) {
+      this.searchFull = args.searchFull;
+    }
+    if (args.price !== undefined && args.price !== null) {
+      this.price = Thrift.copyList(args.price, [null]);
     }
   }
 };
@@ -443,6 +505,40 @@ vv.models.ProductFilter.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
+      case 7:
+      if (ftype == Thrift.Type.STRING) {
+        this.search = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 8:
+      if (ftype == Thrift.Type.STRING) {
+        this.searchFull = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 9:
+      if (ftype == Thrift.Type.LIST) {
+        var _size0 = 0;
+        var _rtmp34;
+        this.price = [];
+        var _etype3 = 0;
+        _rtmp34 = input.readListBegin();
+        _etype3 = _rtmp34.etype;
+        _size0 = _rtmp34.size;
+        for (var _i5 = 0; _i5 < _size0; ++_i5)
+        {
+          var elem6 = null;
+          elem6 = input.readI32();
+          this.price.push(elem6);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
       default:
         input.skip(ftype);
     }
@@ -482,6 +578,30 @@ vv.models.ProductFilter.prototype.write = function(output) {
   if (this.urlKeyCategoryGroup !== null && this.urlKeyCategoryGroup !== undefined) {
     output.writeFieldBegin('urlKeyCategoryGroup', Thrift.Type.STRING, 6);
     output.writeString(this.urlKeyCategoryGroup);
+    output.writeFieldEnd();
+  }
+  if (this.search !== null && this.search !== undefined) {
+    output.writeFieldBegin('search', Thrift.Type.STRING, 7);
+    output.writeString(this.search);
+    output.writeFieldEnd();
+  }
+  if (this.searchFull !== null && this.searchFull !== undefined) {
+    output.writeFieldBegin('searchFull', Thrift.Type.STRING, 8);
+    output.writeString(this.searchFull);
+    output.writeFieldEnd();
+  }
+  if (this.price !== null && this.price !== undefined) {
+    output.writeFieldBegin('price', Thrift.Type.LIST, 9);
+    output.writeListBegin(Thrift.Type.I32, this.price.length);
+    for (var iter7 in this.price)
+    {
+      if (this.price.hasOwnProperty(iter7))
+      {
+        iter7 = this.price[iter7];
+        output.writeI32(iter7);
+      }
+    }
+    output.writeListEnd();
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -525,19 +645,19 @@ vv.models.PaginationProduct.prototype.read = function(input) {
       break;
       case 2:
       if (ftype == Thrift.Type.LIST) {
-        var _size0 = 0;
-        var _rtmp34;
+        var _size8 = 0;
+        var _rtmp312;
         this.data = [];
-        var _etype3 = 0;
-        _rtmp34 = input.readListBegin();
-        _etype3 = _rtmp34.etype;
-        _size0 = _rtmp34.size;
-        for (var _i5 = 0; _i5 < _size0; ++_i5)
+        var _etype11 = 0;
+        _rtmp312 = input.readListBegin();
+        _etype11 = _rtmp312.etype;
+        _size8 = _rtmp312.size;
+        for (var _i13 = 0; _i13 < _size8; ++_i13)
         {
-          var elem6 = null;
-          elem6 = new ttypes.Product();
-          elem6.read(input);
-          this.data.push(elem6);
+          var elem14 = null;
+          elem14 = new ttypes.Product();
+          elem14.read(input);
+          this.data.push(elem14);
         }
         input.readListEnd();
       } else {
@@ -563,12 +683,12 @@ vv.models.PaginationProduct.prototype.write = function(output) {
   if (this.data !== null && this.data !== undefined) {
     output.writeFieldBegin('data', Thrift.Type.LIST, 2);
     output.writeListBegin(Thrift.Type.STRUCT, this.data.length);
-    for (var iter7 in this.data)
+    for (var iter15 in this.data)
     {
-      if (this.data.hasOwnProperty(iter7))
+      if (this.data.hasOwnProperty(iter15))
       {
-        iter7 = this.data[iter7];
-        iter7.write(output);
+        iter15 = this.data[iter15];
+        iter15.write(output);
       }
     }
     output.writeListEnd();

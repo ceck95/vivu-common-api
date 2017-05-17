@@ -21,6 +21,16 @@ var product_color_preview_image_ttypes = require('./product_color_preview_image_
 var category_ttypes = require('./category_types')
 var category_group_ttypes = require('./category_group_types')
 var pagination_ttypes = require('./pagination_types')
+var province_ttypes = require('./province_types')
+var district_ttypes = require('./district_types')
+var ward_ttypes = require('./ward_types')
+var quote_ttypes = require('./quote_types')
+var quote_item_ttypes = require('./quote_item_types')
+var quote_payment_ttypes = require('./quote_payment_types')
+var order_ttypes = require('./order_types')
+var order_item_ttypes = require('./order_item_types')
+var order_payment_ttypes = require('./order_payment_types')
+var order_status_history_ttypes = require('./order_status_history_types')
 
 
 var ttypes = module.exports = {};

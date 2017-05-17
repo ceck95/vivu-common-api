@@ -2,8 +2,8 @@
  * @Author: Tran Van Nhut <nhutdev>
  * @Date:   2017-02-12T09:59:01+07:00
  * @Email:  tranvannhut4495@gmail.com
-* @Last modified by:   nhutdev
-* @Last modified time: 2017-02-20T18:23:55+07:00
+ * @Last modified by:   root
+ * @Last modified time: 2017-03-15T14:51:05+07:00
  */
 
 
@@ -32,15 +32,17 @@ class CustomerAddress extends helpers.models.Base {
 
     this.id = null;
     this.customerId = null;
-    this.type = null;
+    this.type = '';
     this.isDefault = null;
     this.fullName = '';
     this.phone = '';
     this.street = '';
-    this.city = '';
     this.postalCode = '';
-    this.state = '';
+    this.province = '';
+    this.district = '';
+    this.ward = '';
     this.countryCode = '';
+    this.customerName = '';
 
     if (data) {
       helpers.Model.assignData(this, data, opts);
@@ -57,12 +59,14 @@ class CustomerAddress extends helpers.models.Base {
       full_name: this.fullName,
       phone: this.phone,
       street: this.street,
-      city: this.city,
+      province: this.province,
       postal_code: this.postalCode,
-      state: this.state,
+      district: this.district,
       country_code: this.countryCode,
-      status: this.status
-    }
+      status: this.status,
+      ward: this.ward,
+      customer_name: this.customerName
+    };
   }
 
 
@@ -80,6 +84,15 @@ class CustomerAddress extends helpers.models.Base {
     return model;
   }
 
+  toThriftForm(opts) {
+
+    let model = new customerAddressTypes.CustomerAddressForm();
+    this.applyThrift(model, opts);
+    console.log(model);
+    return model;
+
+  }
+
   responseObject(opts) {
 
     opts = opts || {};
@@ -87,6 +100,10 @@ class CustomerAddress extends helpers.models.Base {
 
     return result;
 
+  }
+
+  get serviceActions() {
+    return ['getManyByCustomer', 'getOneDefault'];
   }
 
 }

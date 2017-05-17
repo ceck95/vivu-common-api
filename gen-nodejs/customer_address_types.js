@@ -22,8 +22,8 @@ vv.models.CustomerAddress = module.exports.CustomerAddress = function(args) {
   this.fullName = null;
   this.phone = null;
   this.street = null;
-  this.state = null;
-  this.city = null;
+  this.district = null;
+  this.province = null;
   this.postalCode = null;
   this.countryCode = null;
   this.createdAt = null;
@@ -32,6 +32,8 @@ vv.models.CustomerAddress = module.exports.CustomerAddress = function(args) {
   this.updatedBy = null;
   this.status = null;
   this.id = null;
+  this.ward = null;
+  this.customerName = null;
   if (args) {
     if (args.customerId !== undefined && args.customerId !== null) {
       this.customerId = args.customerId;
@@ -51,11 +53,11 @@ vv.models.CustomerAddress = module.exports.CustomerAddress = function(args) {
     if (args.street !== undefined && args.street !== null) {
       this.street = args.street;
     }
-    if (args.state !== undefined && args.state !== null) {
-      this.state = args.state;
+    if (args.district !== undefined && args.district !== null) {
+      this.district = args.district;
     }
-    if (args.city !== undefined && args.city !== null) {
-      this.city = args.city;
+    if (args.province !== undefined && args.province !== null) {
+      this.province = args.province;
     }
     if (args.postalCode !== undefined && args.postalCode !== null) {
       this.postalCode = args.postalCode;
@@ -80,6 +82,12 @@ vv.models.CustomerAddress = module.exports.CustomerAddress = function(args) {
     }
     if (args.id !== undefined && args.id !== null) {
       this.id = args.id;
+    }
+    if (args.ward !== undefined && args.ward !== null) {
+      this.ward = args.ward;
+    }
+    if (args.customerName !== undefined && args.customerName !== null) {
+      this.customerName = args.customerName;
     }
   }
 };
@@ -141,14 +149,14 @@ vv.models.CustomerAddress.prototype.read = function(input) {
       break;
       case 7:
       if (ftype == Thrift.Type.STRING) {
-        this.state = input.readString();
+        this.district = input.readString();
       } else {
         input.skip(ftype);
       }
       break;
       case 8:
       if (ftype == Thrift.Type.STRING) {
-        this.city = input.readString();
+        this.province = input.readString();
       } else {
         input.skip(ftype);
       }
@@ -209,6 +217,20 @@ vv.models.CustomerAddress.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
+      case 17:
+      if (ftype == Thrift.Type.STRING) {
+        this.ward = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 18:
+      if (ftype == Thrift.Type.STRING) {
+        this.customerName = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
       default:
         input.skip(ftype);
     }
@@ -250,14 +272,14 @@ vv.models.CustomerAddress.prototype.write = function(output) {
     output.writeString(this.street);
     output.writeFieldEnd();
   }
-  if (this.state !== null && this.state !== undefined) {
-    output.writeFieldBegin('state', Thrift.Type.STRING, 7);
-    output.writeString(this.state);
+  if (this.district !== null && this.district !== undefined) {
+    output.writeFieldBegin('district', Thrift.Type.STRING, 7);
+    output.writeString(this.district);
     output.writeFieldEnd();
   }
-  if (this.city !== null && this.city !== undefined) {
-    output.writeFieldBegin('city', Thrift.Type.STRING, 8);
-    output.writeString(this.city);
+  if (this.province !== null && this.province !== undefined) {
+    output.writeFieldBegin('province', Thrift.Type.STRING, 8);
+    output.writeString(this.province);
     output.writeFieldEnd();
   }
   if (this.postalCode !== null && this.postalCode !== undefined) {
@@ -300,6 +322,16 @@ vv.models.CustomerAddress.prototype.write = function(output) {
     output.writeI32(this.id);
     output.writeFieldEnd();
   }
+  if (this.ward !== null && this.ward !== undefined) {
+    output.writeFieldBegin('ward', Thrift.Type.STRING, 17);
+    output.writeString(this.ward);
+    output.writeFieldEnd();
+  }
+  if (this.customerName !== null && this.customerName !== undefined) {
+    output.writeFieldBegin('customerName', Thrift.Type.STRING, 18);
+    output.writeString(this.customerName);
+    output.writeFieldEnd();
+  }
   output.writeFieldStop();
   output.writeStructEnd();
   return;
@@ -312,10 +344,13 @@ vv.models.CustomerAddressInsert = module.exports.CustomerAddressInsert = functio
   this.fullName = null;
   this.phone = null;
   this.street = null;
-  this.state = null;
+  this.ward = null;
   this.city = null;
   this.postalCode = null;
   this.countryCode = null;
+  this.province = null;
+  this.district = null;
+  this.customerName = null;
   if (args) {
     if (args.customerId !== undefined && args.customerId !== null) {
       this.customerId = args.customerId;
@@ -335,8 +370,8 @@ vv.models.CustomerAddressInsert = module.exports.CustomerAddressInsert = functio
     if (args.street !== undefined && args.street !== null) {
       this.street = args.street;
     }
-    if (args.state !== undefined && args.state !== null) {
-      this.state = args.state;
+    if (args.ward !== undefined && args.ward !== null) {
+      this.ward = args.ward;
     }
     if (args.city !== undefined && args.city !== null) {
       this.city = args.city;
@@ -346,6 +381,15 @@ vv.models.CustomerAddressInsert = module.exports.CustomerAddressInsert = functio
     }
     if (args.countryCode !== undefined && args.countryCode !== null) {
       this.countryCode = args.countryCode;
+    }
+    if (args.province !== undefined && args.province !== null) {
+      this.province = args.province;
+    }
+    if (args.district !== undefined && args.district !== null) {
+      this.district = args.district;
+    }
+    if (args.customerName !== undefined && args.customerName !== null) {
+      this.customerName = args.customerName;
     }
   }
 };
@@ -407,7 +451,7 @@ vv.models.CustomerAddressInsert.prototype.read = function(input) {
       break;
       case 7:
       if (ftype == Thrift.Type.STRING) {
-        this.state = input.readString();
+        this.ward = input.readString();
       } else {
         input.skip(ftype);
       }
@@ -429,6 +473,27 @@ vv.models.CustomerAddressInsert.prototype.read = function(input) {
       case 10:
       if (ftype == Thrift.Type.STRING) {
         this.countryCode = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 11:
+      if (ftype == Thrift.Type.STRING) {
+        this.province = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 12:
+      if (ftype == Thrift.Type.STRING) {
+        this.district = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 13:
+      if (ftype == Thrift.Type.STRING) {
+        this.customerName = input.readString();
       } else {
         input.skip(ftype);
       }
@@ -474,9 +539,9 @@ vv.models.CustomerAddressInsert.prototype.write = function(output) {
     output.writeString(this.street);
     output.writeFieldEnd();
   }
-  if (this.state !== null && this.state !== undefined) {
-    output.writeFieldBegin('state', Thrift.Type.STRING, 7);
-    output.writeString(this.state);
+  if (this.ward !== null && this.ward !== undefined) {
+    output.writeFieldBegin('ward', Thrift.Type.STRING, 7);
+    output.writeString(this.ward);
     output.writeFieldEnd();
   }
   if (this.city !== null && this.city !== undefined) {
@@ -492,6 +557,231 @@ vv.models.CustomerAddressInsert.prototype.write = function(output) {
   if (this.countryCode !== null && this.countryCode !== undefined) {
     output.writeFieldBegin('countryCode', Thrift.Type.STRING, 10);
     output.writeString(this.countryCode);
+    output.writeFieldEnd();
+  }
+  if (this.province !== null && this.province !== undefined) {
+    output.writeFieldBegin('province', Thrift.Type.STRING, 11);
+    output.writeString(this.province);
+    output.writeFieldEnd();
+  }
+  if (this.district !== null && this.district !== undefined) {
+    output.writeFieldBegin('district', Thrift.Type.STRING, 12);
+    output.writeString(this.district);
+    output.writeFieldEnd();
+  }
+  if (this.customerName !== null && this.customerName !== undefined) {
+    output.writeFieldBegin('customerName', Thrift.Type.STRING, 13);
+    output.writeString(this.customerName);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+vv.models.CustomerAddressForm = module.exports.CustomerAddressForm = function(args) {
+  this.type = null;
+  this.isDefault = null;
+  this.fullName = null;
+  this.phone = null;
+  this.street = null;
+  this.ward = null;
+  this.province = null;
+  this.district = null;
+  this.customerName = null;
+  this.id = null;
+  this.status = null;
+  if (args) {
+    if (args.type !== undefined && args.type !== null) {
+      this.type = args.type;
+    }
+    if (args.isDefault !== undefined && args.isDefault !== null) {
+      this.isDefault = args.isDefault;
+    }
+    if (args.fullName !== undefined && args.fullName !== null) {
+      this.fullName = args.fullName;
+    }
+    if (args.phone !== undefined && args.phone !== null) {
+      this.phone = args.phone;
+    }
+    if (args.street !== undefined && args.street !== null) {
+      this.street = args.street;
+    }
+    if (args.ward !== undefined && args.ward !== null) {
+      this.ward = args.ward;
+    }
+    if (args.province !== undefined && args.province !== null) {
+      this.province = args.province;
+    }
+    if (args.district !== undefined && args.district !== null) {
+      this.district = args.district;
+    }
+    if (args.customerName !== undefined && args.customerName !== null) {
+      this.customerName = args.customerName;
+    }
+    if (args.id !== undefined && args.id !== null) {
+      this.id = args.id;
+    }
+    if (args.status !== undefined && args.status !== null) {
+      this.status = args.status;
+    }
+  }
+};
+vv.models.CustomerAddressForm.prototype = {};
+vv.models.CustomerAddressForm.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.STRING) {
+        this.type = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.BOOL) {
+        this.isDefault = input.readBool();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 3:
+      if (ftype == Thrift.Type.STRING) {
+        this.fullName = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 4:
+      if (ftype == Thrift.Type.STRING) {
+        this.phone = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 5:
+      if (ftype == Thrift.Type.STRING) {
+        this.street = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 6:
+      if (ftype == Thrift.Type.STRING) {
+        this.ward = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 7:
+      if (ftype == Thrift.Type.STRING) {
+        this.province = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 8:
+      if (ftype == Thrift.Type.STRING) {
+        this.district = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 9:
+      if (ftype == Thrift.Type.STRING) {
+        this.customerName = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 10:
+      if (ftype == Thrift.Type.I32) {
+        this.id = input.readI32();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 11:
+      if (ftype == Thrift.Type.I32) {
+        this.status = input.readI32();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+vv.models.CustomerAddressForm.prototype.write = function(output) {
+  output.writeStructBegin('CustomerAddressForm');
+  if (this.type !== null && this.type !== undefined) {
+    output.writeFieldBegin('type', Thrift.Type.STRING, 1);
+    output.writeString(this.type);
+    output.writeFieldEnd();
+  }
+  if (this.isDefault !== null && this.isDefault !== undefined) {
+    output.writeFieldBegin('isDefault', Thrift.Type.BOOL, 2);
+    output.writeBool(this.isDefault);
+    output.writeFieldEnd();
+  }
+  if (this.fullName !== null && this.fullName !== undefined) {
+    output.writeFieldBegin('fullName', Thrift.Type.STRING, 3);
+    output.writeString(this.fullName);
+    output.writeFieldEnd();
+  }
+  if (this.phone !== null && this.phone !== undefined) {
+    output.writeFieldBegin('phone', Thrift.Type.STRING, 4);
+    output.writeString(this.phone);
+    output.writeFieldEnd();
+  }
+  if (this.street !== null && this.street !== undefined) {
+    output.writeFieldBegin('street', Thrift.Type.STRING, 5);
+    output.writeString(this.street);
+    output.writeFieldEnd();
+  }
+  if (this.ward !== null && this.ward !== undefined) {
+    output.writeFieldBegin('ward', Thrift.Type.STRING, 6);
+    output.writeString(this.ward);
+    output.writeFieldEnd();
+  }
+  if (this.province !== null && this.province !== undefined) {
+    output.writeFieldBegin('province', Thrift.Type.STRING, 7);
+    output.writeString(this.province);
+    output.writeFieldEnd();
+  }
+  if (this.district !== null && this.district !== undefined) {
+    output.writeFieldBegin('district', Thrift.Type.STRING, 8);
+    output.writeString(this.district);
+    output.writeFieldEnd();
+  }
+  if (this.customerName !== null && this.customerName !== undefined) {
+    output.writeFieldBegin('customerName', Thrift.Type.STRING, 9);
+    output.writeString(this.customerName);
+    output.writeFieldEnd();
+  }
+  if (this.id !== null && this.id !== undefined) {
+    output.writeFieldBegin('id', Thrift.Type.I32, 10);
+    output.writeI32(this.id);
+    output.writeFieldEnd();
+  }
+  if (this.status !== null && this.status !== undefined) {
+    output.writeFieldBegin('status', Thrift.Type.I32, 11);
+    output.writeI32(this.status);
     output.writeFieldEnd();
   }
   output.writeFieldStop();

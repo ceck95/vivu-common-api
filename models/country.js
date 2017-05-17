@@ -31,7 +31,7 @@ class Country extends helpers.models.Base {
     super(data, opts);
 
     this.countryCode = '';
-    this.name = ''
+    this.name = '';
 
     if (data) {
       helpers.Model.assignData(this, data, opts);
@@ -42,7 +42,7 @@ class Country extends helpers.models.Base {
     return {
       country_code: this.countryCode,
       name: this.name,
-    }
+    };
   }
 
   toThriftObject(opts) {

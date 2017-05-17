@@ -38,6 +38,14 @@ let registerRequest = Joi.object({
   }),
   forgotPasswordRequest = Joi.object({
     login: Joi.string()
+  }),
+  request = Joi.object({
+    phone: Joi.string(),
+    dob: Joi.number(),
+    gender: Joi.string().valid(['male', 'female']).default('male'),
+    passwordOld: Joi.any(),
+    passwordNew: Joi.any(),
+    fullName: Joi.string()
   });
 
 module.exports = {
@@ -45,5 +53,6 @@ module.exports = {
   response: response,
   loginRequest: loginRequest,
   forgotPasswordRequest: forgotPasswordRequest,
-  changePasswordRequest: changePasswordRequest
-}
+  changePasswordRequest: changePasswordRequest,
+  request: request
+};

@@ -3,13 +3,14 @@
  * @Date:   2017-02-13T21:51:20+07:00
  * @Email:  tranvannhut4495@gmail.com
 * @Last modified by:   nhutdev
-* @Last modified time: 2017-02-18T08:55:27+07:00
+* @Last modified time: 2017-03-12T15:30:27+07:00
  */
 
 'use strict';
 
 const BPromise = require('bluebird');
 const helpers = require('node-helpers');
+const EmptyError = helpers.errors.EmptyError;
 
 class TokenBusiness {
 
@@ -24,8 +25,7 @@ class TokenBusiness {
         expiry = new Date();
 
       expiry.setSeconds(expiry.getSeconds() + token.expiresIn);
-      console.error('expiry time:' + expiry);
-      console.error(expiry.getSeconds(), token.expiresIn)
+
       let tokenModel = tokenStore.createModel({
         accessToken: token.accessToken,
         applicationId: opts.applicationId,
@@ -36,7 +36,6 @@ class TokenBusiness {
         tokenModel.refreshToken = token.refreshToken;
       }
       tokenModel.userId = opts.rawCustomer.id;
-
       return tokenStore.upsertOne(tokenModel).then(() => {
 
         return resolve(token);

@@ -2,11 +2,9 @@
  * @Author: Tran Van Nhut <nhutdev>
  * @Date:   2017-02-12T09:59:01+07:00
  * @Email:  tranvannhut4495@gmail.com
-* @Last modified by:   nhutdev
-* @Last modified time: 2017-02-20T23:16:38+07:00
+ * @Last modified by:   nhutdev
+ * @Last modified time: 2017-02-20T23:16:38+07:00
  */
-
-
 
 const helpers = require('node-helpers');
 const customerTypes = require('../gen-nodejs/customer_types');
@@ -57,7 +55,7 @@ class Customer extends helpers.models.Base {
       gender: this.gender,
       status: this.status,
       password_hash: this.passwordHash
-    }
+    };
   }
 
   applyThrift(model, opts) {
@@ -67,6 +65,12 @@ class Customer extends helpers.models.Base {
 
   toThriftInsert(opts) {
     let model = new customerTypes.CustomerInsert();
+    this.applyThrift(model, opts);
+    return model;
+  }
+
+  toThriftForm(opts) {
+    let model = new customerTypes.CustomerForm();
     this.applyThrift(model, opts);
     return model;
   }
@@ -95,7 +99,7 @@ class Customer extends helpers.models.Base {
   }
 
   get serviceActions() {
-    return ['getOneByEmail', 'changePassword'];
+    return ['getOneByEmail', 'changePassword', 'getOneRelationCustomize'];
   }
 
 }
